@@ -20,7 +20,7 @@ struct KeyB_fixture {
    TEST(NegativeKey) { CHECK_THROW(Cipher cp(L"-4"), cipher_error); }
    TEST(SpaceInKey) { CHECK_THROW(Cipher cp(L"1 0"), cipher_error); }
    TEST(EmptyKey) { CHECK_THROW(Cipher cp(L""), cipher_error); }
-   TEST(NotNumKey) { CHECK_THROW(Cipher cp(L"Б1,"), cipher_error); }
+   TEST(NotDigitsKey) { CHECK_THROW(Cipher cp(L"Б1,"), cipher_error); }
    TEST(TheKeyExceedsHalfTheText) {
      Cipher cp(L"8");
      CHECK_THROW(cp.encrypt(L"АРБЕКОВО"), cipher_error);
@@ -34,10 +34,10 @@ SUITE(EncryptTest) {
   TEST_FIXTURE(KeyB_fixture, LowCaseString) {
     CHECK_EQUAL("ЕОБВРОАК", converter(p->encrypt(L"арбеково")));
   }
-  TEST_FIXTURE(KeyB_fixture, PunctString) {
+  TEST_FIXTURE(KeyB_fixture, PunctuationInString) {
     CHECK_EQUAL("ЕОБВРОАК", converter(p->encrypt(L"АРБЕКОВО!")));
   }
-  TEST_FIXTURE(KeyB_fixture, NumberString) {
+  TEST_FIXTURE(KeyB_fixture, DigitsInString) {
     CHECK_EQUAL("ЕОБВРОАК", converter(p->encrypt(L"АРБЕКОВО228")));
   }
   TEST_FIXTURE(KeyB_fixture, EmptyString) {
@@ -54,13 +54,13 @@ SUITE(DecryptText) {
   TEST_FIXTURE(KeyB_fixture, LowCaseString) {
     CHECK_THROW(p->decrypt(L"ЕОБВроак"), cipher_error);
   }
-  TEST_FIXTURE(KeyB_fixture, SpaceString) {
+  TEST_FIXTURE(KeyB_fixture, WhiteSpaceString) {
     CHECK_THROW(p->decrypt(L"ЕОБВ РОАК"), cipher_error);
   }
-  TEST_FIXTURE(KeyB_fixture, NumberString) {
+  TEST_FIXTURE(KeyB_fixture, DigitsInString) {
     CHECK_THROW(p->decrypt(L"ЕОБВ2РОАК"), cipher_error);
   }
-  TEST_FIXTURE(KeyB_fixture, PunctString) {
+  TEST_FIXTURE(KeyB_fixture, PunctuationInString) {
     CHECK_THROW(p->decrypt(L"ЕОБВРОАК!"), cipher_error);
   }
   TEST_FIXTURE(KeyB_fixture, EmptyString) {

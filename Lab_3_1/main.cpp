@@ -86,10 +86,10 @@ SUITE(DecryptText) {
     CHECK_THROW(p->decrypt(L"ВЬТУ СПОП ДБА МЙТЙЧ БРСЬ ДБЁ УОБМ ЁОЙ ГПДП РТБ"),
                 cipher_error);
   }
-  TEST_FIXTURE(KeyB_fixture, DigitsString) {
+  TEST_FIXTURE(KeyB_fixture, DigitsInString) {
     CHECK_THROW(p->decrypt(L"ТОПГЬН2019ДПЕПН"), cipher_error);
   }
-  TEST_FIXTURE(KeyB_fixture, PunctString) {
+  TEST_FIXTURE(KeyB_fixture, PunctuationInString) {
     CHECK_THROW(p->decrypt(L"ТОПГЬН,ДПЕПН"), cipher_error);
   }
   TEST_FIXTURE(KeyB_fixture, EmptyString) {
